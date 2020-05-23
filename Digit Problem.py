@@ -1,0 +1,19 @@
+a,b=list(map(str,input().split()))
+list=[]
+list.extend(a)
+b=int(b)
+j,t=0,0
+while(True):
+    if(b>0):
+        if(list[j]!='9'):
+            list[j]='9'
+            t+=1
+            if(t==b):
+                break
+    else:
+        break
+    j+=1
+sum=""
+for ch in list:
+    sum+=ch
+print(int(sum))

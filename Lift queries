@@ -1,0 +1,32 @@
+# Write your code here
+liftA=0
+liftB=7
+n=int(input(""))
+for i in range(n):
+    t=int(input(""))
+    if(t>liftA):
+        dA=t-liftA
+    else:
+        dA=liftA-t
+    if (t > liftB):
+        dB = t - liftB
+    else:
+        dB= liftB-t
+
+    if(dA==dB):
+        if(liftA<liftB):
+            print("A")
+            liftA=t
+            print("liftA=>  ",liftA)
+        else:
+            print("B")
+            liftB=t
+            print("liftB=>  ",liftB)
+    elif(dA<dB):
+        print("A")
+        liftA=t
+        print("liftA=>  ",liftA)
+    else:
+        print("B")
+        liftB=t
+        print("liftB=>  ",liftB)

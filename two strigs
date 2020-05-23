@@ -1,0 +1,12 @@
+n=int(input())
+str=""
+for i in range(n):
+    str=list(input("").split(" "))
+    w1=list(str[0])
+    w2=list(str[1])
+    t=w1.sorted()
+    w2.sort()
+    if(w1==w2):
+        print("YES")
+    else:
+        print("NO")
