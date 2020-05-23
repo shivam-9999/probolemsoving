@@ -18,6 +18,8 @@
 # else:
 #     print("Invalid")
 
+// second program
+
 # N=int(input())
 # for i in range(N):
 #     k,t=0,0
