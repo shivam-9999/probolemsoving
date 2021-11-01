@@ -1,0 +1,125 @@
+import React, { useState } from "react";
+import Nav from "../component/Nav";
+import FilledInput from "@mui/material/FilledInput";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Grid from "@mui/material/Grid";
+import AddIcon from "@mui/icons-material/Add";
+import IconButton from "@mui/material/IconButton";
+import "../App.css";
+import topics from "../component/TopicsApi";
+import { Box } from "@mui/system";
+import { makeStyles } from "@mui/styles";
+import Container from "@mui/material/Container";
+import uuid from "react-uuid";
+
+const useStyles = makeStyles({
+  topic: {
+    color: "green",
+  },
+  post: {
+    color: "#ffa733",
+  },
+});
+
+function Dashboard() {
+  const [userTopics, _setUserTopics] = useState(topics);
+  const classes = useStyles();
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  // };
+
+  const handleClick = (index, key) => {
+    const addTopics = JSON.parse(JSON.stringify(userTopics));
+    if (index !== undefined && key !== undefined) {
+      addTopics[index].posts.push({ name: "", picture: "", description: "" });
+      // addTopics[index]
+    } else {
+      addTopics.push({ id: uuid(), name: "", posts: [] });
+      console.log("userTopics", addTopics);
+    }
+    _setUserTopics(addTopics);
+  };
+
+  const handleChange = (e, index, key) => {
+    const { value } = e.target;
+
+    // ---- for deep copy purpose  -----
+    const cloneTopic = JSON.parse(JSON.stringify(userTopics));
+
+    if (key !== undefined) {
+      cloneTopic[index].posts[key].name = value;
+    } else {
+      cloneTopic[index].name = value;
+    }
+    _setUserTopics(cloneTopic);
+  };
+
+  return (
+    <React.Fragment>
+      <Nav />
+      <Container maxWidth="md">
+        <Grid container sx={{ mt: 3 }} spacing={3}>
+          {userTopics.map((topic, index) => {
+            return [
+              <React.Fragment key={index}>
+                <Grid item xs={11}>
+                  <Box>
+                    <FormControl variant="filled" fullWidth>
+                      <InputLabel htmlFor="component-filled">Topic</InputLabel>
+                      <FilledInput
+                        name="topic"
+                        fullWidth
+                        value={topic.name}
+                        onChange={(e) => handleChange(e, index)}
+                      />
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid item xs={1}>
+                  <IconButton
+                    aria-label="add"
+                    onClick={() => handleClick(index)}
+                  >
+                    <AddIcon className={classes.topic} />
+                  </IconButton>
+                </Grid>
+                {topic.posts &&
+                  topic.posts.map((post, key) => {
+                    return [
+                      <React.Fragment key={key}>
+                        <Grid item xs={3}>
+                          <Box>
+                            <FormControl variant="filled" fullWidth>
+                              <InputLabel htmlFor="component-filled">
+                                Post
+                              </InputLabel>
+                              <FilledInput
+                                name="post"
+                                value={post.name}
+                                onChange={(e) => handleChange(e, index, key)}
+                              />
+                            </FormControl>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={1}>
+                          <IconButton
+                            aria-label="add"
+                            onClick={() => handleClick(index, key)}
+                          >
+                            <AddIcon className={classes.post} />
+                          </IconButton>
+                        </Grid>
+                      </React.Fragment>,
+                    ];
+                  })}
+              </React.Fragment>,
+            ];
+          })}
+        </Grid>
+      </Container>
+    </React.Fragment>
+  );
+}
+
+export default Dashboard;
